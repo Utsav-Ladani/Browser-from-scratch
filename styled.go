@@ -42,7 +42,7 @@ func getSpecifiedValues(node *Node, styleSheet *StyleSheet) PropertyMap {
 			selector := rule.selectors[j]
 			nodeData := node.nodeType.(ElementNode)
 
-			if _, hasClass := nodeData.attributes[selector.class]; !hasClass && selector.tagName != nodeData.tagName {
+			if selector.class != nodeData.attributes["class"] && selector.tagName != nodeData.tagName {
 				continue
 			}
 

@@ -28,9 +28,16 @@ func getLayoutTree(node *StyledNode) *LayoutBox {
 	}
 
 	return &LayoutBox{
-		dimensions: &Dimensions{},
-		boxType:    node,
-		children:   layoutBoxChildren,
+		dimensions: &Dimensions{
+			content: Rect{
+				height: int(node.specifiedValues["height"].(Length)),
+				width:  int(node.specifiedValues["width"].(Length)),
+			},
+			margin:  node.specifiedValues["margin"].(EdgeSizes),
+			padding: node.specifiedValues["padding"].(EdgeSizes),
+		},
+		boxType:  node,
+		children: layoutBoxChildren,
 	}
 }
 
@@ -63,27 +70,43 @@ func computeHeightAndWidth(layoutTree *LayoutBox) {
 		}
 	}
 
-	layoutTree.dimensions.content.height = height
-	layoutTree.dimensions.content.width = width
+	if layoutTree.dimensions.content.height < height {
+		layoutTree.dimensions.content.height = height
+	}
+
+	if layoutTree.dimensions.content.width < width {
+		layoutTree.dimensions.content.width = width
+	}
 }
 
 func computePosition(layoutTree *LayoutBox, x, y int) {
-	posX, posY := x, y
+	curX, curY := x, y
+	prevInlineHeight := 0
 
 	for i := 0; i < len(layoutTree.children); i++ {
 		child := layoutTree.children[i]
 
-		computePosition(child, posX, posY)
+		computePosition(child, curX, curY)
 
 		dimensions := child.dimensions
-		dimensions.content.x = posX
-		dimensions.content.y = posY
 
 		if child.boxType.getDisplay() == DisplayBlock {
-			posX = x
-			posY += dimensions.content.height
+			dimensions.content.x = x
+			dimensions.content.y = curY + prevInlineHeight
+
+			curX = x
+			curY += prevInlineHeight + dimensions.content.height
+
+			prevInlineHeight = 0
 		} else if child.boxType.getDisplay() == DisplayInline {
-			posX += dimensions.content.width
+			dimensions.content.x = curX
+			dimensions.content.y = curY
+
+			curX += dimensions.content.width
+
+			if prevInlineHeight < dimensions.content.height {
+				prevInlineHeight = dimensions.content.height
+			}
 		}
 	}
 }
