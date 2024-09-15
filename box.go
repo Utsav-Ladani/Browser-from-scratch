@@ -42,44 +42,16 @@ func getLayoutTree(node *StyledNode) *LayoutBox {
 }
 
 func computeLayout(layoutTree *LayoutBox) {
-	computeHeightAndWidth(layoutTree)
 	computePosition(layoutTree, 0, 0)
 }
 
-func computeHeightAndWidth(layoutTree *LayoutBox) {
-	for i := 0; i < len(layoutTree.children); i++ {
-		computeHeightAndWidth(layoutTree.children[i])
-	}
-
-	height, width := 0, 0
-	blockWidth := 0
-
-	for i := 0; i < len(layoutTree.children); i++ {
-		child := layoutTree.children[i]
-		childDimensions := child.dimensions
-
-		if child.boxType.getDisplay() == DisplayBlock {
-			height += childDimensions.content.height
-			blockWidth = childDimensions.content.width
-		} else if child.boxType.getDisplay() == DisplayInline {
-			blockWidth += childDimensions.content.width
-		}
-
-		if blockWidth > width {
-			width = blockWidth
-		}
-	}
-
-	if layoutTree.dimensions.content.height < height {
-		layoutTree.dimensions.content.height = height
-	}
-
-	if layoutTree.dimensions.content.width < width {
-		layoutTree.dimensions.content.width = width
-	}
-}
-
 func computePosition(layoutTree *LayoutBox, x, y int) {
+	x = x + layoutTree.dimensions.padding.left
+	y = y + layoutTree.dimensions.padding.top
+
+	layoutTree.dimensions.content.x = x
+	layoutTree.dimensions.content.y = y
+
 	curX, curY := x, y
 	prevInlineHeight := 0
 
@@ -91,21 +63,21 @@ func computePosition(layoutTree *LayoutBox, x, y int) {
 		dimensions := child.dimensions
 
 		if child.boxType.getDisplay() == DisplayBlock {
-			dimensions.content.x = x
-			dimensions.content.y = curY + prevInlineHeight
+			dimensions.content.x = x + child.dimensions.margin.left
+			dimensions.content.y = curY + prevInlineHeight + child.dimensions.margin.top
 
-			curX = x
-			curY += prevInlineHeight + dimensions.content.height
+			curX = x + child.dimensions.margin.left + child.dimensions.margin.right
+			curY += prevInlineHeight + dimensions.content.height + child.dimensions.margin.top + child.dimensions.margin.bottom
 
 			prevInlineHeight = 0
 		} else if child.boxType.getDisplay() == DisplayInline {
-			dimensions.content.x = curX
-			dimensions.content.y = curY
+			dimensions.content.x = curX + child.dimensions.margin.left
+			dimensions.content.y = curY + child.dimensions.margin.top
 
-			curX += dimensions.content.width
+			curX += dimensions.content.width + child.dimensions.margin.left + child.dimensions.margin.right
 
-			if prevInlineHeight < dimensions.content.height {
-				prevInlineHeight = dimensions.content.height
+			if prevInlineHeight < dimensions.content.height+child.dimensions.margin.top+child.dimensions.margin.bottom {
+				prevInlineHeight = dimensions.content.height + child.dimensions.margin.top + child.dimensions.margin.bottom
 			}
 		}
 	}

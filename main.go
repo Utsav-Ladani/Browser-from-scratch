@@ -1,6 +1,15 @@
 package main
 
 func getHTML() *Node {
+	body := getElementNode("body", map[string]string{"class": "body"})
+
+	navigaton := getElementNode("nav", map[string]string{"class": "navigation"})
+
+	link1 := getElementNode("link", map[string]string{"class": "link-nav"})
+	link2 := getElementNode("link", map[string]string{"class": "link-nav"})
+	link3 := getElementNode("link", map[string]string{"class": "link-nav"})
+	link4 := getElementNode("link", map[string]string{"class": "link-nav"})
+
 	div := getElementNode("div", map[string]string{"class": "dialog"})
 
 	heading := getElementNode("h1", map[string]string{"class": "heading"})
@@ -10,22 +19,30 @@ func getHTML() *Node {
 	button := getElementNode("button", map[string]string{"class": "button"})
 	notice := getElementNode("p", map[string]string{"class": "notice"})
 
+	navigaton.children = append(navigaton.children, link1, link2, link3, link4)
 	div.children = append(div.children, heading, description, input, link, button, notice)
+	body.children = append(body.children, navigaton, div)
 
-	return div
+	return body
 }
 
 func getStyleSheet() *StyleSheet {
-	div := getRules("", "dialog", DisplayBlock, 600, 400, Yellow, Margin0, Padding20)
-	heading := getRules("", "heading", DisplayBlock, 100, 200, Black, Margin20, Padding0)
-	description := getRules("", "description", DisplayBlock, 300, 200, Red, Margin10, Padding0)
-	input := getRules("input", "", DisplayInline, 30, 100, Purple, Margin0, Padding0)
-	link := getRules("link", "", DisplayInline, 30, 40, Green, Margin10, Padding0)
-	button := getRules("button", "", DisplayInline, 30, 50, Blue, Margin10, Padding0)
-	notice := getRules("", "notice", DisplayBlock, 60, 150, Orange, Margin0, Padding0)
+	body := getRules("body", "", DisplayBlock, 740, 660, White, Margin0, Padding0)
+
+	navigation := getRules("nav", "", DisplayBlock, 70, 660, Green, Margin0, Padding10)
+	navigationLink := getRules("", "link-nav", DisplayInline, 30, 60, Blue, Margin10, Padding0)
+
+	div := getRules("", "dialog", DisplayBlock, 650, 640, Blue, Margin10, Padding20)
+
+	heading := getRules("", "heading", DisplayBlock, 100, 600, Black, Margin10, Padding0)
+	description := getRules("", "description", DisplayBlock, 300, 600, Red, Margin10, Padding0)
+	input := getRules("input", "", DisplayInline, 50, 300, Purple, Margin10, Padding0)
+	link := getRules("", "link", DisplayInline, 50, 100, Green, Margin10, Padding0)
+	button := getRules("button", "", DisplayInline, 50, 100, Yellow, Margin10, Padding0)
+	notice := getRules("", "notice", DisplayBlock, 100, 600, Orange, Margin10, Padding0)
 
 	return &StyleSheet{
-		rules: []*Rule{div, heading, description, input, link, button, notice},
+		rules: []*Rule{body, navigation, navigationLink, div, heading, description, input, link, button, notice},
 	}
 }
 

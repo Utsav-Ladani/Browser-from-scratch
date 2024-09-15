@@ -5,7 +5,10 @@ import (
 )
 
 func paintLayout(layoutTree *LayoutBox) {
-	drawingContext := gg.NewContext(400, 700)
+	width := layoutTree.dimensions.content.width
+	height := layoutTree.dimensions.content.height
+
+	drawingContext := gg.NewContext(width, height)
 
 	drawLayoutTree(layoutTree, drawingContext)
 
