@@ -3,7 +3,7 @@
 Creating browser from scratch to understand its internal working mechanism
 
 ## Milestones
-- [ ] Rendering engine
+- [x] Rendering engine
 - [ ] Event Loop
 - [ ] Networking
 
