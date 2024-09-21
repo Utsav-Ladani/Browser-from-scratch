@@ -44,6 +44,7 @@ var (
 	Yellow Color = Color{255, 255, 0, 255}
 	Orange Color = Color{255, 165, 0, 255}
 	Purple Color = Color{128, 0, 128, 255}
+	Gray   Color = Color{128, 128, 128, 255}
 )
 
 var (
