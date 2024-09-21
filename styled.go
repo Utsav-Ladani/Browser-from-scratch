@@ -13,6 +13,12 @@ func (styledNode *StyledNode) getDisplay() Value {
 }
 
 func getStyledTree(node *Node, styleSheet *StyleSheet) *StyledNode {
+	if _, ok := node.nodeType.(ElementNode); !ok {
+		return &StyledNode{
+			node: node,
+		}
+	}
+
 	var styledChildren []*StyledNode = []*StyledNode{}
 
 	for i := 0; i < len(node.children); i++ {

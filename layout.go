@@ -21,6 +21,13 @@ type LayoutNode struct {
 }
 
 func getLayoutTree(node *StyledNode) *LayoutNode {
+	if _, ok := node.node.nodeType.(ElementNode); !ok {
+		return &LayoutNode{
+			dimensions: node.node.nodeType.getDimensions(),
+			boxType:    node,
+		}
+	}
+
 	var layoutBoxChildren []*LayoutNode = []*LayoutNode{}
 
 	for i := 0; i < len(node.children); i++ {
@@ -48,6 +55,10 @@ func computeLayout(layoutTree *LayoutNode, viewportHeight, viewportWidth int) {
 }
 
 func computeWidth(layoutNode *LayoutNode, parentWidth int) {
+	if _, ok := layoutNode.boxType.node.nodeType.(ElementNode); !ok {
+		return
+	}
+
 	if layoutNode.boxType.getDisplay() == DisplayBlock {
 		computeBlockWidth(layoutNode, parentWidth)
 	} else if layoutNode.boxType.getDisplay() == DisplayInline {

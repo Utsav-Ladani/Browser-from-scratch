@@ -36,15 +36,16 @@ const (
 )
 
 var (
-	Red    Color = Color{255, 0, 0, 255}
-	Green  Color = Color{0, 255, 0, 255}
-	Blue   Color = Color{0, 0, 255, 255}
-	Black  Color = Color{0, 0, 0, 255}
-	White  Color = Color{255, 255, 255, 255}
-	Yellow Color = Color{255, 255, 0, 255}
-	Orange Color = Color{255, 165, 0, 255}
-	Purple Color = Color{128, 0, 128, 255}
-	Gray   Color = Color{128, 128, 128, 255}
+	DodgerBlue  Color = Color{30, 144, 255, 255}
+	White       Color = Color{255, 255, 255, 255}
+	Yellow      Color = Color{255, 255, 0, 255}
+	LightOrange Color = Color{255, 165, 0, 255}
+	Purple      Color = Color{128, 0, 128, 255}
+	Gray        Color = Color{128, 128, 128, 255}
+	Pink        Color = Color{255, 192, 203, 255}
+	LightGray   Color = Color{211, 211, 211, 255}
+	LightGreen  Color = Color{144, 238, 144, 255}
+	LightBlue   Color = Color{173, 216, 230, 255}
 )
 
 var (
