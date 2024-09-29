@@ -43,7 +43,7 @@ func main() {
 
 func startEventLoop() {
 	eventLoop := &EventLoop{
-		microTaskQueue: MicroTask,
+		microTasks: MicroTask,
 	}
 	eventLoop.AddPhase(Timer)
 	eventLoop.AddPhase(Poll)

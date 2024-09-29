@@ -2,7 +2,7 @@ package main
 
 type EventLoop struct {
 	phases         []*Phase
-	microTaskQueue *MicroTaskQueue
+	microTasks *MicroTaskQueue
 }
 
 func (el *EventLoop) AddPhase(phase Phase) {
@@ -28,6 +28,6 @@ func (el *EventLoop) isAllPhasesEmpty() bool {
 func (el *EventLoop) runEachPhase() {
 	for _, phase := range el.phases {
 		(*phase).Run()
-		el.microTaskQueue.Run()
+		el.microTasks.Run()
 	}
 }
