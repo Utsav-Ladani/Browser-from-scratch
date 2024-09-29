@@ -14,4 +14,4 @@ $ go run .
 ```
 
 ## Screenshots
-![Browser](./browser.png)
+![Browser](./rendering-engine/browser.png)
