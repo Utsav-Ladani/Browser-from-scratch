@@ -8,9 +8,13 @@ Creating browser from scratch to understand its internal working mechanism
 - [ ] Networking
 
 ## How to run
+
+### Run the rendering engine
 ```bash
+$ cd rendering-engine
 $ go mod tidy
 $ go run .
+# Output: browser.png
 ```
 
 ## Screenshots
