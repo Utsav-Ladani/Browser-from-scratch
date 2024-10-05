@@ -4,7 +4,7 @@ Creating browser from scratch to understand its internal working mechanism
 
 ## Milestones
 - [x] Rendering engine
-- [ ] Event Loop
+- [x] Event Loop
 - [ ] Networking
 
 ## How to run
@@ -17,5 +17,17 @@ $ go run .
 # Output: browser.png
 ```
 
+### Run the event loop
+```bash
+$ cd event-loop
+$ go mod tidy
+$ go run .
+# Output: stdout
+```
+
 ## Screenshots
+### Rendering Engine
 ![Browser](./rendering-engine/browser.png)
+
+### Event Loop
+![Event Loop](./event-loop/event-loop.png)
